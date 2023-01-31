@@ -4,6 +4,7 @@ tableau = []
 coordonnee_ligne = 2
 coordonnee_colonne = 2
 
+
 def initialise_game(tableau):
     '''for i in range(3):
         lst = ["-"]
@@ -35,33 +36,6 @@ def show_play():
             print(tableau[i][j], end="")
         print()
 
-
-def choose_ia_play():
-    global IA
-    if player == "X":
-        print("L'ordinateur va jouer avec le O")
-        IA = "O"
-
-    else:
-        print("L'ordinateur va jouer avec le X")
-        IA = "X"
-
-
-#def case_aleatoir(case_aleatoir_colonne, case_aleatoir_ligne):
-    #case_aleatoir_colonne = randint(0, 2)
-    #case_aleatoir_ligne = randint(0, 2)
-
-def place_ia(coordonnee_colonne, coordonnee_ligne):
-    choose_ia_play()
-    initialise_game(tableau)
-    case_aleatoir_colonne = randint(0, 2)
-    case_aleatoir_ligne = randint(0, 2)
-    #case_aleatoir(case_aleatoir_colonne, case_aleatoir_ligne)
-    if tableau[case_aleatoir_ligne][case_aleatoir_colonne] != tableau[coordonnee_ligne][coordonnee_colonne] == player:
-        tableau[case_aleatoir_ligne][case_aleatoir_colonne] = IA
-    else:
-        place_ia(coordonnee_colonne, coordonnee_ligne)
-
 def util_player():
     global player
     player = input("Veuillez saisir votre joueur, soit 'X' soit 'O':")
@@ -77,6 +51,31 @@ def util_player():
         print("ERROR!")
         util_player()
 
+def choose_ia_play():
+    global IA
+    if player == "X":
+        print("L'ordinateur va jouer avec le O")
+        IA = "O"
+
+    else:
+        print("L'ordinateur va jouer avec le X")
+        IA = "X"
+
+#def case_aleatoir(case_aleatoir_colonne, case_aleatoir_ligne):
+    #case_aleatoir_colonne = randint(0, 2)
+    #case_aleatoir_ligne = randint(0, 2)
+
+def place_ia(coordonnee_colonne, coordonnee_ligne):
+    choose_ia_play()
+    initialise_game(tableau)
+    case_aleatoir_colonne = randint(0, 2)
+    case_aleatoir_ligne = randint(0, 2)
+    #case_aleatoir(case_aleatoir_colonne, case_aleatoir_ligne)
+    if tableau[case_aleatoir_ligne][case_aleatoir_colonne] != (tableau[coordonnee_ligne][coordonnee_colonne] == player):
+        tableau[case_aleatoir_ligne][case_aleatoir_colonne] = IA
+    else:
+        place_ia(coordonnee_colonne, coordonnee_ligne)
+
 def depart_player():
     initialise_game(tableau)
     tableau[2][2] = player
@@ -85,11 +84,69 @@ def depart_player():
 
 def choix_or_valid():
     global choix
-    choix = input("Veuillez saisir (y) ou (n)")
+    choix = input("Veuillez saisir ('y' si vous voulez laissez votre personnage dans cette case) ou ('n' si vous voulez bouger encore votre personnage)")
 
+
+def determinee_player_winner():
+    initialise_game(tableau)
+    if tableau[0][0] == player and tableau[0][1] == player and tableau[0][2] == player:
+        print(player, "à gagner!")
+
+    elif tableau[1][0] == player and tableau[1][1] == player and tableau[1][2] == player:
+        print(player, "à gagner!")
+
+    elif tableau[2][0] == player and tableau[2][1] == player and tableau[2][2] == player:
+        print(player, "à gagner!")
+
+    elif tableau[0][0] == player and tableau[1][0] == player and tableau[2][0] == player:
+        print(player, "à gagner!")
+
+    elif tableau[0][1] == player and tableau[1][1] == player and tableau[2][1] == player:
+        print(player, "à gagner!")
+
+    elif tableau[0][2] == player and tableau[1][2] == player and tableau[2][2] == player:
+        print(player, "à gagner!")
+
+    elif tableau[0][0] == player and tableau[1][1] == player and tableau[2][2] == player:
+        print(player, "à gagner!")
+
+    elif tableau[0][2] == player and tableau[1][1] == player and tableau[2][0] == player:
+        print(player, "à gagner!")
+
+    else:
+        pass
+
+def determinee_ia_winner():
+    initialise_game(tableau)
+    if tableau[0][0] == IA and tableau[0][1] == IA and tableau[0][2] == IA:
+        print(IA, "à gagner!")
+
+    elif tableau[1][0] == IA and tableau[1][1] == IA and tableau[1][2] == IA:
+        print(IA, "à gagner!")
+
+    elif tableau[2][0] == IA and tableau[2][1] == IA and tableau[2][2] == IA:
+        print(IA, "à gagner!")
+
+    elif tableau[0][0] == IA and tableau[1][0] == IA and tableau[2][0] == IA:
+        print(IA, "à gagner!")
+
+    elif tableau[0][1] == IA and tableau[1][1] == IA and tableau[2][1] == IA:
+        print(IA, "à gagner!")
+
+    elif tableau[0][2] == IA and tableau[1][2] == IA and tableau[2][2] == IA:
+        print(IA, "à gagner!")
+
+    elif tableau[0][0] == IA and tableau[1][1] == IA and tableau[2][2] == IA:
+        print(IA, "à gagner!")
+
+    elif tableau[0][2] == IA and tableau[1][1] == IA and tableau[2][0] == IA:
+        print(IA, "à gagner!")
+
+    else:
+        pass
 def move_player_before_chooce(coordonnee_ligne, coordonnee_colonne):
-    show_play()
     while choix != "y":
+        show_play()
         bouton = int(input("Veuillez saisir:(8(haut),6(droite),4(gauche),2(bas):"))
         if bouton == 8 and coordonnee_ligne > 0:
             initialise_game(tableau)
@@ -120,13 +177,16 @@ def move_player_before_chooce(coordonnee_ligne, coordonnee_colonne):
             show_play()
 
         choix_or_valid()
+        y_chooce(coordonnee_colonne, coordonnee_ligne)
+        determinee_player_winner()
+        #determinee_ia_winner()
 
+    determinee_player_winner()
+    determinee_ia_winner()
     move_player_with_choose(coordonnee_ligne, coordonnee_colonne)
 
 def move_player_with_choose(coordonnee_ligne, coordonnee_colonne):
-    show_play()
     while choix == "y":
-        place_ia(coordonnee_colonne, coordonnee_ligne)
         show_play()
         bouton = int(input("Veuillez saisir:(8(haut),6(droite),4(gauche),2(bas):"))
         if bouton == 8 and coordonnee_ligne > 0:
@@ -158,9 +218,17 @@ def move_player_with_choose(coordonnee_ligne, coordonnee_colonne):
             show_play()
 
         choix_or_valid()
+        y_chooce(coordonnee_colonne, coordonnee_ligne)
+        determinee_player_winner()
+        determinee_ia_winner()
 
+    determinee_player_winner()
+    determinee_ia_winner()
     move_player_before_chooce(coordonnee_ligne, coordonnee_colonne)
 
+def y_chooce(coordonnee_colonne, coordonnee_ligne):
+    if choix == "y":
+        place_ia(coordonnee_colonne, coordonnee_ligne)
 
 def Menue():
     print("- StartGame - Pour commancer le jeu")
